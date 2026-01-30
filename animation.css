@@ -192,7 +192,8 @@ body {
   white-space: nowrap;
   /* --- UPDATED: A smoother, more elegant transition --- */
   transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Refined shadow */
+  /*text-shadow: 2px 2px 4px rgba(0,0,0,0.5);  Refined shadow */
+  text-shadow: 2px 2px 0px black, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 5px 15px black !important; 
 }
 
 #winlist li::marker {
@@ -235,7 +236,8 @@ body {
   white-space: nowrap;
   margin-right: 66px;
   transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Refined shadow */
+  /*text-shadow: 1px 1px 3px rgba(0,0,0,0.5);  Refined shadow */
+  text-shadow: 2px 2px 0px black, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 5px 15px black !important; 
 }
 
 #loselist li::marker {
