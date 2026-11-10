@@ -159,8 +159,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
     <script type="text/javascript" src="eventsub.js"></script>
     <script type="text/javascript">
 		
-        var client_id = 'nou4egds05d6svv8tf4aycwqijw0iz';
-        var redirect = 'https://graveyard420woo.github.io/GXPreds/';
+        var client_id = 'plpbgz20knnbbu2r2chfc1512xae3t';
+        var redirect = 'https://whohadidas.github.io/GXPredsTweaked/';
         var access_token = '';
         var socket_space = '';
         var session_id = '';
@@ -605,7 +605,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					if (resp.data[0].status == "ACTIVE"){
 						
 					//log(`Got ${resp.data[0].outcomes.length} outcomes`);
-					if(resp.data[0].outcomes.length == 2){ // check if its a two option pred, if so don't start anything
+					if(resp.data[0].outcomes.length < 2){
 					} else {
 					
 					if (typeof timerL3 !== 'undefined') {
@@ -707,7 +707,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                 .then(resp => {
 					//console.dir(resp.data[0]);
 					//log(`Got ${resp.data[0].outcomes.length} outcomes`);
-					if(resp.data[0].outcomes.length == 2){ // check if its a two option pred, if so don't start anything
+					if(resp.data[0].outcomes.length < 2){
 					} else {
 					
 					if (typeof timerL3 !== 'undefined') {
