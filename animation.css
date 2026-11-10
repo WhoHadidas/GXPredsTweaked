@@ -78,6 +78,16 @@ body {
     transform 2.5s ease-in-out; /* Add transform transition */
 }
 
+/* Option 1 (Left Side) - Blue */
+.outcomebar-0 {
+    background-image: linear-gradient(to right, #387AFF, #245bcc) !important;
+}
+
+/* Option 2 (Right Side) - Pink */
+.outcomebar-1 {
+    background-image: linear-gradient(to right, #E0008E, #b00070) !important;
+}
+
 #cpcounted{
 	margin-left: -10px;
 }

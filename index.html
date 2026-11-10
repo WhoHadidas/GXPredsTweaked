@@ -808,9 +808,10 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                 // Ensure globalWidth is up-to-date for accurate scaling
                 globalWidth = container.offsetWidth;
 
-                // 1. Collect all channel point values and find the maximum.
+                // 1. Collect all channel point values and find maximum and total points
                 const allPoints = outcomes.map(outcome => parseInt(outcome.channel_points, 10));
                 const maxPoints = Math.max(...allPoints);
+                const totalPoints = allPoints.reduce((sum, val) => sum + val, 0);
 
                 // 2. Loop through each outcome ONCE to update its bar.
                 for (let i = 0; i < numberOfOutcomes; i++) {
@@ -820,15 +821,18 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 
                     if (!barElement) continue; // Skip if the bar element doesn't exist
 
-                    // Update the number counter
-                    countUpToCPointsNumber('outcomecp-' + i, currentPoints, outcome.title);
+                    // Calculate percentage (0% if no points bet yet)
+                    const percent = totalPoints > 0 ? Math.round((currentPoints / totalPoints) * 100) : 0;
+
+                    // Update the number counter with title and percentage
+                    countUpToCPointsNumber('outcomecp-' + i, currentPoints, outcome.title, percent, totalPoints);
 
                     // Update the bar color based on the top predictor
                     if (outcome.users > 0 && outcome.top_predictors && outcome.top_predictors.length > 0) {
                         const topPredictorUserId = outcome.top_predictors[0].user_id;
                         doChatUsersBarColor(topPredictorUserId, 'outcomebar-' + i);
                     }
-					
+
                     // 3. Calculate the new proportional width
                     let proportionalWidth = 0;
                     // Use the stored minimum width required for the text
@@ -843,7 +847,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 
                     barElement.style.width = `${finalWidth}px`;
                 }
-                
+
                 // After all widths are set, adjust the timer's position
                 addTheBarsMoveTimer();
             })
@@ -852,32 +856,35 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                 log('Error with Prediction Progress Call');
             });
         }
-		
-		function countUpToCPointsNumber(className, stones, title){
-		
+
+		function countUpToCPointsNumber(className, stones, title, percent, totalPoints){
+
 			const counterElement = document.querySelector('.'+className);
+			if (!counterElement) return;
+
 			const targetNumber = stones; // The number you want to count up to
 			const duration = 1000; // Duration of the animation in milliseconds (1 second)
 			const interval = 10; // Interval for updating the counter (in milliseconds)
 			const increment = targetNumber / (duration / interval); // Calculate the increment per interval
-			
-			let cptextContent = counterElement.textContent; // textContent will be ""
-			let cpnumericValue = parseFloat(cptextContent); // numericValue will be NaN
+
+			let cptextContent = counterElement.textContent;
+			let cpnumericValue = parseFloat(cptextContent.replace(/,/g, ''));
 			if (isNaN(cpnumericValue)) {
-			  cpnumericValue = 0; // numericValue will be 0
+			  cpnumericValue = 0;
 			}
-		
+
 			let currentNumber = cpnumericValue;
-						
+
 			const timerCP = setInterval(() => {
 				currentNumber += increment;
 				if (currentNumber >= targetNumber) {
 					currentNumber = targetNumber; // Ensure the counter doesn't exceed the target
 					clearInterval(timerCP); // Stop the timer when the target is reached
 				}
-				if (Math.round(currentNumber) == 0){
-				}else {
-					counterElement.textContent = Math.round(currentNumber); // Update the displayed number, rounded to the nearest integer
+				if (totalPoints > 0 || Math.round(currentNumber) > 0){
+					counterElement.textContent = `${Math.round(currentNumber).toLocaleString()} (${percent}%)`;
+				} else {
+					counterElement.textContent = "";
 				}
 			}, interval);	
 		}
