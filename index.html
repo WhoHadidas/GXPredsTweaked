@@ -1208,3 +1208,48 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             for (let type in eventSubTypes) {
                 log(`Attempt create ${type} - ${user_id}`);
                 let { version, condition } = eventSubTypes[type];
+                        spawnHook(type, version, condition);
+            }
+        }
+        function spawnHook(type, version, condition) {
+            fetch(
+                'https://api.twitch.tv/helix/eventsub/subscriptions',
+                {
+                    "method": "POST",
+                    "headers": {
+                        "Client-ID": client_id,
+                        "Authorization": "Bearer " + access_token,
+                        'Content-Type': 'application/json'
+                    },
+                    "body": JSON.stringify({
+                        type,
+                        version,
+                        condition,
+                        transport: {
+                            method: "websocket",
+                            session_id
+                        }
+                    })
+                }
+            )
+                .then(resp => resp.json())
+                .then(resp => {
+                    if (resp.error) {
+                        log(`Error with eventsub Call ${type} Call: ${resp.message ? resp.message : ''}`);
+                    } else {
+                        log(`Created ${type}`);
+                        //clear the scene for browser source use
+                        document.getElementById("bigcontainer").style.display = "none";
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    log(`Error with eventsub Call ${type} Call: ${err.message ? err.message : ''}`);
+                });
+        }
+    </script>
+</div></div>
+<div id="animation">
+    <div class="confetti-wrapper" id="confettianimation"></div>
+</div></div></div>
+</body></html>
