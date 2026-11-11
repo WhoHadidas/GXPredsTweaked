@@ -938,7 +938,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                     clearInterval(timerCP); // Stop the timer when the target is reached
                 }
                 if (totalPoints > 0 || Math.round(currentNumber) > 0){
-                    counterElement.textContent = `${Math.round(currentNumber).toLocaleString()} (${percent}%)`;
+                    const cpIcon = '<svg viewBox="0 0 20 20" style="width:0.95em;height:0.95em;vertical-align:-0.12em;display:inline-block;filter:drop-shadow(1px 1px 2px rgba(0,0,0,0.4));" fill="none"><circle cx="10" cy="10" r="7.5" stroke="#ffffff" stroke-width="2.2"/><path d="M10 5.8 A4.2 4.2 0 0 1 14.2 10" stroke="#ffffff" stroke-width="2.2"/></svg>';
+                    counterElement.innerHTML = `${Math.round(currentNumber).toLocaleString()} ${cpIcon} (${percent}%)`;
                 } else {
                     counterElement.textContent = "";
                 }
