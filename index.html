@@ -178,6 +178,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
         var zeroCheck = 0;
         var totalbarwidthtogether = 0;
         let barDataQueue = [];
+        let intervalForResults;
 
         const myBigAssDiv = document.getElementById('bigcontainer1');
         setTimeout(() => {
@@ -263,6 +264,14 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                 element.style.opacity = '0%';
                 element.remove();
             });
+            const elementsToRemove8 = document.querySelectorAll('div[id^="resultsdiv"]');
+            elementsToRemove8.forEach(element => {
+                element.style.opacity = '0%';
+                element.remove();
+            });
+            if (typeof intervalForResults !== 'undefined') {
+                clearInterval(intervalForResults);
+            }
             document.getElementById('animation').style.opacity = "0%";
             document.getElementById('animation').style.top = "250";
         }
@@ -278,6 +287,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             });
             const titleDim = document.getElementById('predtitle');
             if (titleDim) titleDim.style.opacity = "69%";
+            const resultsDim = document.getElementById('resultsdiv');
+            if (resultsDim) resultsDim.style.opacity = "69%";
         }
 
         function addTheBarsMoveTimer(){
@@ -306,6 +317,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             });
             const titleFadeOut = document.getElementById('predtitle');
             if (titleFadeOut) titleFadeOut.style.opacity = "0%";
+            const resultsFadeOut = document.getElementById('resultsdiv');
+            if (resultsFadeOut) resultsFadeOut.style.opacity = "0%";
         }
 
         function fadeinEverything(){
@@ -380,6 +393,9 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             if (typeof intervalForTimer !== 'undefined') {
                 clearInterval(intervalForTimer);
             }
+            if (typeof intervalForResults !== 'undefined') {
+                clearInterval(intervalForResults);
+            }
 
             const container = document.getElementById('animation');
             const newLockedDiv = document.createElement('div');
@@ -432,6 +448,9 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             if (typeof intervalForTimer !== 'undefined') {
                 clearInterval(intervalForTimer);
             }
+            if (typeof intervalForResults !== 'undefined') {
+                clearInterval(intervalForResults);
+            }
 
             fadeinEverything();
 
@@ -471,9 +490,13 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 
             else if(paidstatus == 'resolved'){
 
+                const container = document.getElementById('animation');
+                container.style.top = "185";
+                const titleHide = document.getElementById('predtitle');
+                if (titleHide) titleHide.style.opacity = "0%";
+
                 doPredEndStuff(my_user_id, pred_id);
 
-                const container = document.getElementById('animation');
                 const newPaidDiv = document.createElement('div');
                 newPaidDiv.setAttribute('id', 'paiddiv');
                 newPaidDiv.textContent = 'PAID!';
@@ -634,6 +657,9 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                             if (typeof intervalForTimer !== 'undefined') {
                                 clearInterval(intervalForTimer);
                             }
+                            if (typeof intervalForResults !== 'undefined') {
+                                clearInterval(intervalForResults);
+                            }
 
                             // confetti start
                             document.getElementById("confettianimation").style.display = "block";
@@ -742,6 +768,9 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                         }
                         if (typeof intervalForTimer !== 'undefined') {
                             clearInterval(intervalForTimer);
+                        }
+                        if (typeof intervalForResults !== 'undefined') {
+                            clearInterval(intervalForResults);
                         }
 
                         // confetti start
@@ -982,6 +1011,77 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             return "#" + RR + GG + BB;
         }
 
+        function formatCompactPoints(points) {
+            const abs = Math.abs(points);
+            if (abs >= 1000000) {
+                return parseFloat((abs / 1000000).toFixed(2)) + 'M';
+            }
+            if (abs >= 1000) {
+                return parseFloat((abs / 1000).toFixed(1)) + 'K';
+            }
+            return abs.toString();
+        }
+
+        function startScrollingResultsColumn(colElement, entries, isWinner) {
+            if (!entries.length) return null;
+
+            const rowHeight = 28;
+            const maxVisible = 5;
+            const activeRows = [];
+            let step = 0;
+
+            function pushNext() {
+                if (step >= entries.length) {
+                    return false;
+                }
+
+                const entry = entries[step];
+                const row = document.createElement('div');
+                row.className = 'result-row';
+                row.style.transform = `translateY(${maxVisible * rowHeight}px)`;
+                row.style.opacity = '0';
+
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'result-name';
+                nameSpan.textContent = entry.name;
+
+                const amountSpan = document.createElement('span');
+                amountSpan.className = 'result-amount ' + (isWinner ? 'result-win' : 'result-loss');
+                amountSpan.textContent = (isWinner ? '+' : '-') + formatCompactPoints(entry.amount);
+
+                row.appendChild(nameSpan);
+                row.appendChild(amountSpan);
+                colElement.appendChild(row);
+
+                void row.offsetHeight;
+
+                activeRows.push({ index: step, element: row });
+
+                for (let j = activeRows.length - 1; j >= 0; j--) {
+                    const item = activeRows[j];
+                    const slot = (maxVisible - 1) - (step - item.index);
+                    if (slot < 0) {
+                        item.element.style.transform = `translateY(${-rowHeight}px)`;
+                        item.element.style.opacity = '0';
+                        const elToRemove = item.element;
+                        activeRows.splice(j, 1);
+                        setTimeout(() => {
+                            elToRemove.remove();
+                        }, 650);
+                    } else {
+                        item.element.style.transform = `translateY(${slot * rowHeight}px)`;
+                        item.element.style.opacity = '1';
+                    }
+                }
+
+                step++;
+                return step < entries.length;
+            }
+
+            pushNext();
+            return pushNext;
+        }
+
         function doPredEndStuff(broadcaster_id, pred_id) {
             let url = new URL('https://api.twitch.tv/helix/predictions?broadcaster_id='+broadcaster_id+'&id='+pred_id);
             fetch(
@@ -995,92 +1095,98 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             )
                 .then(resp => resp.json())
                 .then(resp => {
-                    //console.dir(resp.data[0]);
-                    //log(`Got winning outcome ID: ${resp.data[0].winning_outcome_id}`);
-
-                    const numberOfOutcomes = `${resp.data[0].outcomes.length}`
-                    cLoseTime = 0;
-
-                    for (let i = 0; i < numberOfOutcomes; i++) {
-
-                        if (`${resp.data[0].winning_outcome_id}` == `${resp.data[0].outcomes[i].id}`){
-                            //console.log(`${resp.data[0].outcomes[i].title} is the winning outcome! `);
-                            if (resp.data[0].outcomes[i].top_predictors){
-
-                                const container = document.getElementById('animation');
-                                const newWinningDiv = document.createElement('div');
-                                const ulElement = document.createElement("ul");
-
-                                newWinningDiv.setAttribute('id', 'winningdiv');
-                                ulElement.setAttribute('id', 'winlist');
-                                container.appendChild(newWinningDiv);
-                                newWinningDiv.appendChild(ulElement);
-
-                                const numberOfTopPredictors = `${resp.data[0].outcomes[i].top_predictors.length}`
-
-                                totalPredictors = totalPredictors + numberOfTopPredictors;
-
-                                for (let c = 0; c < numberOfTopPredictors; c++) {
-                                    const listItem = document.createElement("li"); // Create a new list item
-                                    listItem.innerHTML = `${resp.data[0].outcomes[i].top_predictors[c].user_name}` + '<span style="color:#03953F;"> + ' + `${resp.data[0].outcomes[i].top_predictors[c].channel_points_won}` + '</span>';
-                                    ulElement.appendChild(listItem); // Append the list item to the unordered list
-                                    setTimeout(() => {
-                                        setTimeout(() => {
-                                            listItem.style.opacity = '100%';
-                                            listItem.style.marginTop = '58';
-                                        }, 1000); // A small delay
-                                        setTimeout(() => {
-                                            listItem.style.transition = 'all .3s ease-in-out';
-                                            listItem.style.opacity = '0%';
-                                            listItem.style.marginTop = '22';
-                                        }, 6000); // A small delay
-                                    }, (5000*c)+4000);
-                                }
-                            }
-
-                        } else {
-                            //console.log(`${resp.data[0].outcomes[i].title} didnt win `);
-                            changeDivColorByClassUser('outcomebar-' + i, 'rgba(204, 204, 204, 0.5)');
-
-                            if (resp.data[0].outcomes[i].top_predictors){
-
-                                const container = document.getElementById('animation');
-                                const newLosingDiv = document.createElement('div');
-                                const ulElement = document.createElement("ul");
-
-                                newLosingDiv.setAttribute('id', 'losingdiv');
-                                ulElement.setAttribute('id', 'loselist');
-                                container.appendChild(newLosingDiv);
-                                newLosingDiv.appendChild(ulElement);
-
-                                const numberOfTopPredictorsLose = `${resp.data[0].outcomes[i].top_predictors.length}`
-
-                                totalPredictors = totalPredictors + numberOfTopPredictorsLose;
-
-                                for (let c = 0; c < numberOfTopPredictorsLose; c++) {
-                                    const listItem = document.createElement("li"); // Create a new list item
-                                    listItem.innerHTML = `${resp.data[0].outcomes[i].top_predictors[c].user_name}` + '<span style="color:#ED1A3B;"> - ' + `${resp.data[0].outcomes[i].top_predictors[c].channel_points_used}` + '</span>';
-                                    ulElement.appendChild(listItem); // Append the list item to the unordered list
-                                    const cLoseTimeee = cLoseTime;
-                                    cLoseTime = cLoseTime + 1;
-                                    //console.log(cLoseTimeee);
-                                    setTimeout(() => {
-                                        setTimeout(() => {
-                                            listItem.style.opacity = '100%';
-                                            listItem.style.marginTop = '80';
-                                        }, 1000); // A small delay
-                                        setTimeout(() => {
-                                            listItem.style.opacity = '0%';
-                                            listItem.style.marginTop = '180';
-                                        }, 5000); // A small delay
-                                    }, 4000*cLoseTimeee); // A small delay
-                                }
-                            }
-
-                        }
-
+                    if (!resp.data || !resp.data[0] || !resp.data[0].outcomes) {
+                        return;
                     }
 
+                    const outcomes = resp.data[0].outcomes;
+                    const numberOfOutcomes = outcomes.length;
+                    const winningOutcomeId = `${resp.data[0].winning_outcome_id}`;
+                    const container = document.getElementById('animation');
+
+                    const oldResults = document.getElementById('resultsdiv');
+                    if (oldResults) oldResults.remove();
+                    if (typeof intervalForResults !== 'undefined') {
+                        clearInterval(intervalForResults);
+                    }
+
+                    let winningIndex = 0;
+                    const winners = [];
+                    const losers = [];
+
+                    for (let i = 0; i < numberOfOutcomes; i++) {
+                        const outcome = outcomes[i];
+                        const predictors = outcome.top_predictors || [];
+
+                        if (`${outcome.id}` == winningOutcomeId) {
+                            winningIndex = i;
+                            predictors.forEach(p => {
+                                const used = parseInt(p.channel_points_used, 10) || 0;
+                                const won = parseInt(p.channel_points_won, 10) || 0;
+                                winners.push({
+                                    name: p.user_name,
+                                    amount: Math.max(0, won - used)
+                                });
+                            });
+                        } else {
+                            changeDivColorByClassUser('outcomebar-' + i, 'rgba(204, 204, 204, 0.5)');
+                            predictors.forEach(p => {
+                                losers.push({
+                                    name: p.user_name,
+                                    amount: parseInt(p.channel_points_used, 10) || 0
+                                });
+                            });
+                        }
+                    }
+
+                    winners.sort((a, b) => b.amount - a.amount);
+                    losers.sort((a, b) => b.amount - a.amount);
+
+                    const bars = container.querySelectorAll('#outcomebar');
+                    const lastBar = bars[bars.length - 1];
+                    const winningBar = bars[winningIndex];
+                    const barSpanWidth = lastBar ? (lastBar.offsetLeft + lastBar.offsetWidth) : Math.floor(globalWidth * 0.92);
+
+                    let winnersOnLeft = winningIndex === 0;
+                    if (winningIndex > 0 && winningIndex === numberOfOutcomes - 1) {
+                        winnersOnLeft = false;
+                    } else if (winningIndex > 0 && winningBar && barSpanWidth > 0) {
+                        const winningCenter = winningBar.offsetLeft + (winningBar.offsetWidth / 2);
+                        winnersOnLeft = winningCenter < (barSpanWidth / 2);
+                    }
+
+                    const resultsDiv = document.createElement('div');
+                    resultsDiv.setAttribute('id', 'resultsdiv');
+                    resultsDiv.style.width = barSpanWidth + 'px';
+
+                    const leftCol = document.createElement('div');
+                    leftCol.className = 'results-col results-col-left';
+
+                    const rightCol = document.createElement('div');
+                    rightCol.className = 'results-col results-col-right';
+
+                    resultsDiv.appendChild(leftCol);
+                    resultsDiv.appendChild(rightCol);
+                    container.appendChild(resultsDiv);
+
+                    const winnersCol = winnersOnLeft ? leftCol : rightCol;
+                    const losersCol = winnersOnLeft ? rightCol : leftCol;
+
+                    const advanceWinners = startScrollingResultsColumn(winnersCol, winners, true);
+                    const advanceLosers = startScrollingResultsColumn(losersCol, losers, false);
+
+                    const maxItems = Math.max(winners.length, losers.length);
+                    const tickMs = maxItems > 12 ? Math.max(600, Math.floor(18000 / maxItems)) : 1200;
+
+                    if (maxItems > 1) {
+                        intervalForResults = setInterval(() => {
+                            const moreW = advanceWinners ? advanceWinners() : false;
+                            const moreL = advanceLosers ? advanceLosers() : false;
+                            if (!moreW && !moreL) {
+                                clearInterval(intervalForResults);
+                            }
+                        }, tickMs);
+                    }
                 })
                 .catch(err => {
                     console.log(err);
@@ -1102,49 +1208,3 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             for (let type in eventSubTypes) {
                 log(`Attempt create ${type} - ${user_id}`);
                 let { version, condition } = eventSubTypes[type];
-
-                spawnHook(type, version, condition);
-            }
-        }
-        function spawnHook(type, version, condition) {
-            fetch(
-                'https://api.twitch.tv/helix/eventsub/subscriptions',
-                {
-                    "method": "POST",
-                    "headers": {
-                        "Client-ID": client_id,
-                        "Authorization": "Bearer " + access_token,
-                        'Content-Type': 'application/json'
-                    },
-                    "body": JSON.stringify({
-                        type,
-                        version,
-                        condition,
-                        transport: {
-                            method: "websocket",
-                            session_id
-                        }
-                    })
-                }
-            )
-                .then(resp => resp.json())
-                .then(resp => {
-                    if (resp.error) {
-                        log(`Error with eventsub Call ${type} Call: ${resp.message ? resp.message : ''}`);
-                    } else {
-                        log(`Created ${type}`);
-                        //clear the scene for browser source use
-                        document.getElementById("bigcontainer").style.display = "none";
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                    log(`Error with eventsub Call ${type} Call: ${err.message ? err.message : ''}`);
-                });
-        }
-    </script>
-</div></div>
-<div id="animation">
-    <div class="confetti-wrapper" id="confettianimation"></div>
-</div></div></div>
-</body></html>

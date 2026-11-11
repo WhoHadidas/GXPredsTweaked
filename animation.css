@@ -125,7 +125,7 @@ body {
 
 #predtitle {
     position: absolute;
-    top: -38px;
+    top: -40px;
     left: 0;
     width: 100%;
     text-align: center;
@@ -189,83 +189,70 @@ body {
     text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
 }
 
-#winningdiv{
-    position:absolute;
-    top:-180px;
-    z-index: 1000;
-    width: 100%;
-    padding: 4px 40px 4px 4px;
-    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-    color: #fff;
-    margin-left: 69px;
-    margin-right: 11px;
-    font-size: 44px;
-    font-weight: bold;
-    text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
-}
-
-#winlist {
-    height: 600px;
-    white-space: nowrap;
-    transition: all 1s ease-in-out;
-}
-
-#winlist li {
+#resultsdiv {
     position: absolute;
+    bottom: 100%;
+    left: 0;
+    height: 140px;
+    margin-bottom: 10px;
+    pointer-events: none;
+    z-index: 1000;
+    transition: opacity 1s ease-in-out;
+}
+
+.results-col {
+    position: absolute;
+    bottom: 0;
+    width: 48%;
+    max-width: 380px;
+    height: 140px;
+}
+
+.results-col-left {
+    left: 0;
+}
+
+.results-col-right {
+    right: 0;
+}
+
+.result-row {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 28px;
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    font-family: "Francois One", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    white-space: nowrap;
     opacity: 0;
-    margin-top:200px;
-    font-weight: bold;
-    white-space: nowrap;
-    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-    text-shadow: 2px 2px 0px black, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 5px 15px black !important;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease-in-out;
+    text-shadow: 2px 2px 0px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0 3px 8px rgba(0, 0, 0, 0.9);
 }
 
-#winlist li::marker {
-    content: "✓";
-    color:#6F9;
-    padding: 14px;
+.results-col-right .result-row {
+    flex-direction: row-reverse;
 }
 
-#losingdiv{
-    position: absolute;
-    z-index: 1000;
-    top: -130px;
-    padding: 4px 40px 4px 4px;
-    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+.result-name {
     color: #fff;
-    width: 100%;
-    margin-left: 366px;
-    margin-right: 11px;
-    font-size: 34px;
-    font-weight: bold;
-    align-items: left;
-    text-align: left;
-    text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-#loselist {
-    height: 600px;
-    margin-right: 66px;
-    align-items: right;
-    text-align: right;
-    white-space: nowrap;
-    transition: all 1s ease-in-out;
+.result-amount {
+    flex-shrink: 0;
 }
 
-#loselist li {
-    position: absolute;
-    opacity: 0; /* Fully transparent */
-    margin-top:0px;
-    font-weight: bold;
-    white-space: nowrap;
-    margin-right: 66px;
-    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-    /*text-shadow: 1px 1px 3px rgba(0,0,0,0.5);  Refined shadow */
-    text-shadow: 2px 2px 0px black, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 5px 15px black !important;
+.result-win {
+    color: #00e676;
 }
 
-#loselist li::marker {
-    content: "❌";
-    color:#FFCCCC;
-    padding: 14px;
+.result-loss {
+    color: #ff3b30;
 }
