@@ -662,6 +662,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                             titleDiv.textContent = resp.data[0].title;
                             container.appendChild(titleDiv);
 
+                            const startWidth = Math.floor((container.offsetWidth * 0.92) / numberOfDivs);
+
                             for (let i = 0; i < numberOfDivs; i++) {
 
                                 const newDiv2 = document.createElement('div');
@@ -673,7 +675,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                                 // Store the natural width before applying an inline style
                                 const initialContentWidth = newDiv2.offsetWidth;
                                 newDiv2.setAttribute('data-initial-width', initialContentWidth);
-                                newDiv2.style.width = initialContentWidth + 'px';
+                                newDiv2.style.width = Math.max(initialContentWidth, startWidth) + 'px';
 
                                 const newDiv4 = document.createElement('div');
                                 newDiv4.classList.add('outcomecp-' + i);
@@ -769,6 +771,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                         titleDiv.textContent = resp.data[0].title;
                         container.appendChild(titleDiv);
 
+                        const startWidth = Math.floor((container.offsetWidth * 0.92) / numberOfDivs);
+
                         for (let i = 0; i < numberOfDivs; i++) {
 
                             const newDiv2 = document.createElement('div');
@@ -780,7 +784,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                             // Store the natural width before applying an inline style
                             const initialContentWidth = newDiv2.offsetWidth;
                             newDiv2.setAttribute('data-initial-width', initialContentWidth);
-                            newDiv2.style.width = initialContentWidth + 'px';
+                            newDiv2.style.width = Math.max(initialContentWidth, startWidth) + 'px';
 
                             const newDiv4 = document.createElement('div');
                             newDiv4.classList.add('outcomecp-' + i);
@@ -859,8 +863,10 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                         // Use the stored minimum width required for the text
                         const minimumWidth = parseInt(barElement.getAttribute('data-initial-width'), 10) || 0;
 
-                        if (maxPoints > 0) {
-                            proportionalWidth = (currentPoints / maxPoints) * globalWidth;
+                        if (totalPoints > 0) {
+                            proportionalWidth = (currentPoints / totalPoints) * (globalWidth * 0.92);
+                        } else {
+                            proportionalWidth = Math.floor((globalWidth * 0.92) / numberOfOutcomes);
                         }
 
                         // The final width is the larger of the proportional width or the minimum text width
