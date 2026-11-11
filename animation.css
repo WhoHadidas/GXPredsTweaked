@@ -56,6 +56,7 @@ body {
     padding: 4px 20px 22px 12px; /* Adjusted padding */
     margin: 0px 4px 6px 0px; /* Add slight spacing between bars */
 	width: fit-content;
+    min-width: 250px;
 	height: 36px;
 	margin-top: -1px;
     /* --- NEW: Gradient and shadow for a modern look --- */
@@ -87,9 +88,12 @@ body {
 .outcomebar-1 {
     background-image: linear-gradient(to right, #E0008E, #b00070) !important;
 }
-
+/* Makes the points & percentage text a smaller size HOPEFULLY */
+[class^="outcomecp-"] {
+    font-size: 18px;
+}
 #cpcounted{
-	margin-left: -10px;
+    margin-left: -10px;
 }
 
 #outcomename {
