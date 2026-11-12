@@ -1084,6 +1084,33 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                     const numberOfOutcomes = outcomes.length;
                     const winningOutcomeId = `${resp.data[0].winning_outcome_id}`;
                     const container = document.getElementById('animation');
+                    globalWidth = globalWidth || container.offsetWidth;
+
+                    if (container.querySelectorAll('#outcomebar').length === 0) {
+                        let totalPoints = 0;
+                        outcomes.forEach(o => {
+                            totalPoints += parseInt(o.channel_points, 10) || 0;
+                        });
+                        const startWidth = Math.floor((globalWidth * 0.92) / numberOfOutcomes);
+                        for (let i = 0; i < numberOfOutcomes; i++) {
+                            const bar = document.createElement('div');
+                            bar.textContent = outcomes[i].title;
+                            bar.classList.add('outcomebar-' + i);
+                            bar.setAttribute('id', 'outcomebar');
+                            bar.style.opacity = '96%';
+                            container.appendChild(bar);
+
+                            const initialContentWidth = bar.offsetWidth;
+                            bar.setAttribute('data-initial-width', initialContentWidth);
+                            const pts = parseInt(outcomes[i].channel_points, 10) || 0;
+                            const targetWidth = totalPoints > 0 ? (pts / totalPoints) * (globalWidth * 0.92) : startWidth;
+                            bar.style.width = Math.max(initialContentWidth, targetWidth) + 'px';
+
+                            const cpDiv = document.createElement('div');
+                            cpDiv.classList.add('outcomecp-' + i);
+                            bar.appendChild(cpDiv);
+                        }
+                    }
 
                     const oldResults = document.getElementById('resultsdiv');
                     if (oldResults) oldResults.remove();
