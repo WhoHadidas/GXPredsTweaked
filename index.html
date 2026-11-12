@@ -1023,24 +1023,17 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             return abs.toString();
         }
 
-        function startScrollingResultsColumn(colElement, entries, isWinner) {
-            if (!entries.length) return null;
+        function startScrollingResultsColumn(colElement, entries, isWinner, speedPxPerSec) {
+            if (!entries.length) return;
 
             const rowHeight = 28;
-            const maxVisible = 5;
-            const activeRows = [];
-            let step = 0;
+            const viewHeight = 140;
+            const track = document.createElement('div');
+            track.className = 'results-track';
 
-            function pushNext() {
-                if (step >= entries.length) {
-                    return false;
-                }
-
-                const entry = entries[step];
+            entries.forEach(entry => {
                 const row = document.createElement('div');
                 row.className = 'result-row';
-                row.style.transform = `translateY(${maxVisible * rowHeight}px)`;
-                row.style.opacity = '0';
 
                 const nameSpan = document.createElement('span');
                 nameSpan.className = 'result-name';
@@ -1052,35 +1045,22 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 
                 row.appendChild(nameSpan);
                 row.appendChild(amountSpan);
-                colElement.appendChild(row);
+                track.appendChild(row);
+            });
 
-                void row.offsetHeight;
+            const totalHeight = entries.length * rowHeight;
+            const totalDistance = viewHeight + totalHeight;
+            const durationMs = Math.round((totalDistance / speedPxPerSec) * 1000);
 
-                activeRows.push({ index: step, element: row });
+            track.style.transform = `translateY(${viewHeight}px)`;
+            colElement.appendChild(track);
 
-                for (let j = activeRows.length - 1; j >= 0; j--) {
-                    const item = activeRows[j];
-                    const slot = (maxVisible - 1) - (step - item.index);
-                    if (slot < 0) {
-                        item.element.style.transform = `translateY(${-rowHeight}px)`;
-                        item.element.style.opacity = '0';
-                        const elToRemove = item.element;
-                        activeRows.splice(j, 1);
-                        setTimeout(() => {
-                            elToRemove.remove();
-                        }, 650);
-                    } else {
-                        item.element.style.transform = `translateY(${slot * rowHeight}px)`;
-                        item.element.style.opacity = '1';
-                    }
-                }
+            void track.offsetHeight;
 
-                step++;
-                return step < entries.length;
-            }
-
-            pushNext();
-            return pushNext;
+            requestAnimationFrame(() => {
+                track.style.transition = `transform ${durationMs}ms linear`;
+                track.style.transform = `translateY(-${totalHeight}px)`;
+            });
         }
 
         function doPredEndStuff(broadcaster_id, pred_id) {
@@ -1173,21 +1153,12 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                     const winnersCol = winnersOnLeft ? leftCol : rightCol;
                     const losersCol = winnersOnLeft ? rightCol : leftCol;
 
-                    const advanceWinners = startScrollingResultsColumn(winnersCol, winners, true);
-                    const advanceLosers = startScrollingResultsColumn(losersCol, losers, false);
-
                     const maxItems = Math.max(winners.length, losers.length);
-                    const tickMs = maxItems > 12 ? Math.max(600, Math.floor(18000 / maxItems)) : 1200;
+                    const maxDistance = 140 + (maxItems * 28);
+                    const speedPxPerSec = Math.max(35, maxDistance / 22);
 
-                    if (maxItems > 1) {
-                        intervalForResults = setInterval(() => {
-                            const moreW = advanceWinners ? advanceWinners() : false;
-                            const moreL = advanceLosers ? advanceLosers() : false;
-                            if (!moreW && !moreL) {
-                                clearInterval(intervalForResults);
-                            }
-                        }, tickMs);
-                    }
+                    startScrollingResultsColumn(winnersCol, winners, true, speedPxPerSec);
+                    startScrollingResultsColumn(losersCol, losers, false, speedPxPerSec);
                 })
                 .catch(err => {
                     console.log(err);
