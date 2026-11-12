@@ -1023,7 +1023,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             return abs.toString();
         }
 
-        function startScrollingResultsColumn(colElement, entries, isWinner, speedPxPerSec) {
+        function startScrollingResultsColumn(colElement, entries, isWinner, durationMs) {
             if (!entries.length) return;
 
             const rowHeight = 28;
@@ -1049,8 +1049,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             });
 
             const totalHeight = entries.length * rowHeight;
-            const totalDistance = viewHeight + totalHeight;
-            const durationMs = Math.round((totalDistance / speedPxPerSec) * 1000);
 
             track.style.transform = `translateY(${viewHeight}px)`;
             colElement.appendChild(track);
@@ -1183,9 +1181,10 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                     const maxItems = Math.max(winners.length, losers.length);
                     const maxDistance = 140 + (maxItems * 28);
                     const speedPxPerSec = Math.max(35, maxDistance / 22);
+                    const durationMs = Math.round((maxDistance / speedPxPerSec) * 1000);
 
-                    startScrollingResultsColumn(winnersCol, winners, true, speedPxPerSec);
-                    startScrollingResultsColumn(losersCol, losers, false, speedPxPerSec);
+                    startScrollingResultsColumn(winnersCol, winners, true, durationMs);
+                    startScrollingResultsColumn(losersCol, losers, false, durationMs);
                 })
                 .catch(err => {
                     console.log(err);
