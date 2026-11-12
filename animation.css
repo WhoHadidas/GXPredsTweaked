@@ -186,7 +186,7 @@ body {
     font-weight: bold;
     transform: scale(4) rotate(-36deg);
     opacity:0;
-    text-shadow: 0 0 10px #fff, 0 0 20px #6D78FF, 0 0 30px #6D78FF, 0 0 40px #6D78FF, 0 0 50px #6D78FF;
+    text-shadow: 0 0 10px #fff, 0 0 20px #1479FF, 0 0 30px #1479FF, 0 0 40px #1479FF, 0 0 50px #1479FF;
 }
 
 #resultsdiv {
