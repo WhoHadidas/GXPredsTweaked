@@ -292,13 +292,15 @@ Simply add it as a browser source by copying the URL of the blank screen after c
         }
 
         function addTheBarsMoveTimer(){
-            totalbarwidthtogether = 0;
-            const elementsToAdd1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
-            elementsToAdd1.forEach(element => {
-                totalbarwidthtogether = totalbarwidthtogether + element.offsetWidth;
-                document.getElementById('timerdiv').style.marginLeft = Math.floor(totalbarwidthtogether/2)-40+'px';
-                console.log(Math.floor(totalbarwidthtogether/2)+'px');
-            });
+            const timer = document.getElementById('timerdiv');
+            if (!timer) return;
+            const bars = document.querySelectorAll('div[id^="outcomebar"]');
+            if (!bars.length) return;
+            const firstBar = bars[0];
+            const lastBar = bars[bars.length - 1];
+            const spanWidth = (lastBar.offsetLeft + lastBar.offsetWidth) - firstBar.offsetLeft;
+            const centerPoint = firstBar.offsetLeft + (spanWidth / 2);
+            timer.style.left = centerPoint + 'px';
         }
 
         function fadeoutTheBars(){
@@ -353,7 +355,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             let remainingSeconds = seconds;
             // --- UPDATED: Initial state for the animation ---
             newTimerDiv.style.opacity = "0";
-            newTimerDiv.style.transform = 'scale(2) rotate(-25deg)';
+            newTimerDiv.style.transform = 'translateX(-50%) scale(2) rotate(-25deg)';
 
             intervalForTimer = window.setInterval(() => {
                 const minutes = Math.floor(remainingSeconds / 60);
@@ -361,15 +363,13 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 
                 newTimerDiv.innerHTML = `${String(minutes).padStart(2, '0')}:${String(secondsValue).padStart(2, '0')}`;
 
-                // --- UPDATED: Animate to the final, slicker state ---
                 newTimerDiv.style.opacity = "1";
-                newTimerDiv.style.transform = 'scale(1) rotate(0deg)';
+                newTimerDiv.style.transform = 'translateX(-50%) scale(1) rotate(0deg)';
 
                 if (remainingSeconds <= 0) {
                     clearInterval(intervalForTimer);
-                    // --- UPDATED: A more stylish exit animation ---
                     newTimerDiv.style.opacity = "0";
-                    newTimerDiv.style.transform = 'scale(0.5) rotate(0deg) translateY(-20px)';
+                    newTimerDiv.style.transform = 'translateX(-50%) translateY(-20px) scale(0.5) rotate(0deg)';
                 }
                 remainingSeconds--;
             }, 1000);
