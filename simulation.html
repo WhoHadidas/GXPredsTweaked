@@ -239,11 +239,10 @@
             bar.appendChild(cp);
         }
 
-        showTheTimer(10);
+        showTheTimer(30);
         fadeinEverything();
         playTheStartSound();
 
-        // 1. Simulate bets coming in after 3s
         setTimeout(() => {
             const totalPoints = 50000;
             const b0 = 35000;
@@ -258,7 +257,6 @@
             addTheBarsMoveTimer();
         }, 3000);
 
-        // 2. Lock prediction at 10s
         setTimeout(() => {
             const newLockedDiv = document.createElement('div');
             newLockedDiv.setAttribute('id', 'lockeddiv');
@@ -276,9 +274,8 @@
                 newLockedDiv.style.transform = 'scale(0.8) rotate(0deg)';
             }, 4000);
             setTimeout(() => newLockedDiv.remove(), 4500);
-        }, 10000);
+        }, 30000);
 
-        // 3. Resolve & Pay Out at 15s
         setTimeout(() => {
             container.style.top = "150px";
             const titleHide = document.getElementById('predtitle');
@@ -339,10 +336,9 @@
 
             startScrollingResultsColumn(leftCol, mockWinners, true, 13000);
             startScrollingResultsColumn(rightCol, mockLosers, false, 13000);
-        }, 15000);
+        }, 35000);
 
-        // 4. Repeat cycle
-        setTimeout(runCycle, 26000);
+        setTimeout(runCycle, 52000);
     }
 
     window.onload = runCycle;
