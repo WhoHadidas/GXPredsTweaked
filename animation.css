@@ -39,6 +39,16 @@ body {
     transition: opacity 1s ease-in-out, top 1s ease-in-out;
 }
 
+#resultsdiv {
+    position: absolute;
+    bottom: calc(100% + 25px);
+    height: 140px;
+    margin-bottom: 0px;
+    pointer-events: none;
+    z-index: 1000;
+    transition: opacity 1s ease-in-out;
+}
+
 #img {
     position:relative;
     width: 100px;
@@ -51,6 +61,7 @@ body {
 }
 
 #outcomebar {
+    flex-shrink: 0;
     z-index: -1;
     color: #fff;
     border-radius: 9px; /* Slightly softer corners */

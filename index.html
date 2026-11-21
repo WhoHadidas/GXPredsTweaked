@@ -55,7 +55,6 @@
             z-index: 100;
             transition: background 1s ease-in;
         }
-        /* Randomize confetti properties */
         .confetti-piece:nth-child(1) {
             left: 10%;
             --confetti-color: #ed0677;
@@ -168,7 +167,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
         var barColorUser = '';
         var numberOfActiveElements = 0;
         var newMaxWidth = 0;
-        var	newWidthPercentage = 0;
+        var newWidthPercentage = 0;
         var globalWidth = 0;
         var percentCheck = 0;
         var cLoseTime = 0;
@@ -217,39 +216,39 @@ Simply add it as a browser source by copying the URL of the blank screen after c
         }
 
         function clearOldElements(){
-            const elementsToRemove1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
+            const elementsToRemove1 = document.querySelectorAll('div[id^="outcomebar"]');
             elementsToRemove1.forEach(element => {
                 element.style.transition = 'none';
                 element.style.opacity = '0%';
                 element.style.transition = 'all 1s ease-in-out';
                 element.remove();
             });
-            const elementsToRemove2 = document.querySelectorAll('div[id^="outcomename"]'); // Selects divs with IDs starting with "prefix_"
+            const elementsToRemove2 = document.querySelectorAll('div[id^="outcomename"]');
             elementsToRemove2.forEach(element => {
                 element.style.transition = 'none';
                 element.style.opacity = '0%';
                 element.style.transition = 'all 1s ease-in-out';
                 element.remove();
             });
-            const elementsToRemove4 = document.querySelectorAll('div[id^="winningdiv"]'); // Selects divs with IDs starting with "prefix_"
+            const elementsToRemove4 = document.querySelectorAll('div[id^="winningdiv"]');
             elementsToRemove4.forEach(element => {
                 element.style.transition = 'none';
                 element.style.opacity = '0%';
                 element.style.transition = 'all 1s ease-in-out';
                 element.remove();
             });
-            const elementsToRemove5 = document.querySelectorAll('div[id^="losingdiv"]'); // Selects divs with IDs starting with "prefix_"
+            const elementsToRemove5 = document.querySelectorAll('div[id^="losingdiv"]');
             elementsToRemove5.forEach(element => {
                 element.style.transition = 'none';
                 element.style.opacity = '0%';
                 element.style.transition = 'all 1s ease-in-out';
                 element.remove();
             });
-            const elementsToRemove3 = document.querySelectorAll('div[class^="confetti-piece"]'); // Selects divs with classes starting with "prefix_"
+            const elementsToRemove3 = document.querySelectorAll('div[class^="confetti-piece"]');
             elementsToRemove3.forEach(element => {
                 element.remove();
             });
-            const elementsToRemove6 = document.querySelectorAll('div[id^="timerdiv"]'); // Selects divs with IDs starting with "prefix_"
+            const elementsToRemove6 = document.querySelectorAll('div[id^="timerdiv"]');
             elementsToRemove6.forEach(element => {
                 element.style.opacity = '0%';
                 element.remove();
@@ -275,11 +274,11 @@ Simply add it as a browser source by copying the URL of the blank screen after c
         }
 
         function dimTheBars(){
-            const elementsToDim1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
+            const elementsToDim1 = document.querySelectorAll('div[id^="outcomebar"]');
             elementsToDim1.forEach(element => {
                 element.style.opacity = "69%"
             });
-            const elementsToDim2 = document.querySelectorAll('div[id^="outcomename"]'); // Selects divs with IDs starting with "prefix_"
+            const elementsToDim2 = document.querySelectorAll('div[id^="outcomename"]');
             elementsToDim2.forEach(element => {
                 element.style.opacity = "69%"
             });
@@ -302,15 +301,15 @@ Simply add it as a browser source by copying the URL of the blank screen after c
         }
 
         function fadeoutTheBars(){
-            const elementsToFade1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
+            const elementsToFade1 = document.querySelectorAll('div[id^="outcomebar"]');
             elementsToFade1.forEach(element => {
                 element.style.opacity = "0%"
             });
-            const elementsToFade2 = document.querySelectorAll('div[id^="outcomename"]'); // Selects divs with IDs starting with "prefix_"
+            const elementsToFade2 = document.querySelectorAll('div[id^="outcomename"]');
             elementsToFade2.forEach(element => {
                 element.style.opacity = "0%"
             });
-            const elementsToFade3 = document.querySelectorAll('div[id^="timerdiv"]'); // Selects divs with IDs starting with "prefix_"
+            const elementsToFade3 = document.querySelectorAll('div[id^="timerdiv"]');
             elementsToFade3.forEach(element => {
                 element.style.opacity = "0%"
                 element.style.transform = 'scale(0.5) rotate(9deg)';
@@ -322,11 +321,11 @@ Simply add it as a browser source by copying the URL of the blank screen after c
         }
 
         function fadeinEverything(){
-            const elementsToFadein1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
+            const elementsToFadein1 = document.querySelectorAll('div[id^="outcomebar"]');
             elementsToFadein1.forEach(element => {
                 element.style.opacity = "96%"
             });
-            const elementsToFadein2 = document.querySelectorAll('div[id^="outcomename"]'); // Selects divs with IDs starting with "prefix_"
+            const elementsToFadein2 = document.querySelectorAll('div[id^="outcomename"]');
             elementsToFadein2.forEach(element => {
                 element.style.opacity = "100%"
             });
@@ -339,11 +338,10 @@ Simply add it as a browser source by copying the URL of the blank screen after c
         function showTheTimer(seconds, startTimeUTC){
             const utcTimeString = startTimeUTC;
             const utcDate = new Date(utcTimeString);
-            const nowUTC = Date.now(); // Get current UTC time in milliseconds
+            const nowUTC = Date.now();
             const utcTimeMilliseconds = utcDate.getTime();
-            const elapsedTimeMilliseconds = nowUTC - utcTimeMilliseconds; // Calculate elapsed time in milliseconds
+            const elapsedTimeMilliseconds = nowUTC - utcTimeMilliseconds;
             const elapsedTimeSeconds = Math.floor(elapsedTimeMilliseconds / 1000);
-            //seconds = (seconds - elapsedTimeSeconds) - 112; // Adjusted timing offset the - 112 compensates for twitchs incorrect offset
             seconds = (seconds - elapsedTimeSeconds) - 2;
 
             const container = document.getElementById('animation');
@@ -351,7 +349,9 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             newTimerDiv.setAttribute('id', 'timerdiv');
             container.appendChild(newTimerDiv);
             addTheBarsMoveTimer();
-            // --- UPDATED: Initial state for the animation ---
+
+            let remainingSeconds = seconds;
+
             newTimerDiv.style.opacity = "0";
             newTimerDiv.style.transform = 'translateX(-50%) scale(2) rotate(-25deg)';
 
@@ -359,7 +359,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             const secondsValue = remainingSeconds % 60;
             newTimerDiv.innerHTML = `${String(minutes).padStart(2, '0')}:${String(secondsValue).padStart(2, '0')}`;
 
-            // Fade in immediately on spawn
             requestAnimationFrame(() => {
                 newTimerDiv.style.opacity = "1";
                 newTimerDiv.style.transform = 'translateX(-50%) scale(1) rotate(0deg)';
@@ -380,8 +379,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
         }
 
         function playTheLockedAnimation(){
-
-            // (Keep the clearTimeout section as is)
             if (typeof timerL3 !== 'undefined') {
                 clearTimeout(timerL3);
             }
@@ -412,20 +409,17 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                 element.style.opacity = "0";
                 element.style.transform = 'scale(0.5) rotate(0deg)';
             });
-            // --- UPDATED: Tweaked animation sequence for more impact ---
             timerL0=window.setTimeout(
                 function(){
                     newLockedDiv.style.opacity = '1';
-                    // Final state has a slight, persistent rotation
                     newLockedDiv.style.transform = 'scale(1.2) rotate(-10deg) skew(0deg)';
                     dimTheBars();
                 },150);
             timerL1=window.setTimeout(
                 function(){
                     newLockedDiv.style.opacity = '0';
-                    // A quick exit animation
                     newLockedDiv.style.transform = 'scale(0.8) rotate(0deg)';
-                },4000); // Shortened duration for a snappier feel
+                },4000);
             timerL2=window.setTimeout(
                 function(){
                     newLockedDiv.remove();
@@ -459,14 +453,13 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             fadeinEverything();
 
             if(paidstatus == 'canceled'){
-
                 const container = document.getElementById('animation');
                 const newRefundedDiv = document.createElement('div');
                 newRefundedDiv.setAttribute('id', 'refundeddiv');
                 newRefundedDiv.textContent = 'REFUND!';
                 container.appendChild(newRefundedDiv);
                 playTheEndedSound();
-                const fadetimersout = document.querySelectorAll('div[id^="timerdiv"]'); // Selects divs with IDs starting with "prefix_"
+                const fadetimersout = document.querySelectorAll('div[id^="timerdiv"]');
                 fadetimersout.forEach(element => {
                     element.style.opacity = "0%"
                     element.style.transform = 'scale(0.5) rotate(9deg)';
@@ -491,9 +484,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                         container.style.opacity = '0%';
                     },5000);
             }
-
             else if(paidstatus == 'resolved'){
-
                 const container = document.getElementById('animation');
                 container.style.top = "150";
                 const titleHide = document.getElementById('predtitle');
@@ -556,23 +547,21 @@ Simply add it as a browser source by copying the URL of the blank screen after c
         function processToken(token) {
             access_token = token;
 
-            fetch(
-                'https://api.twitch.tv/helix/users',
-                {
-                    "headers": {
-                        "Client-ID": client_id,
-                        "Authorization": "Bearer " + access_token
-                    }
-                }
-            )
+            let my_headers = new Headers();
+            my_headers.append('Client-ID', client_id);
+            my_headers.append('Authorization', `Bearer ${token}`);
+
+            fetch(`https://api.twitch.tv/helix/users`, {
+                headers: my_headers
+            })
                 .then(resp => resp.json())
                 .then(resp => {
-                    my_user_id = resp.data[0].id;
+                    log(`Client ID: ${client_id}`);
+                    log(`User ID: ${resp.data[0].id}`);
+                    log(`User: ${resp.data[0].display_name}`);
 
-                    if (my_user_id === '27689704' || getUrlParameter('test') === 'true') {
-                        runContinuousTestCycle();
-                        return;
-                    }
+                    my_user_id = resp.data[0].id;
+                    my_user_login = resp.data[0].login;
 
                     socket_space = new initSocket(true);
                     socket_space.on('connected', (id) => {
@@ -581,6 +570,48 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                         requestHooks(resp.data[0].id, my_user_id);
                         getPredStuffFirstRun(my_user_id);
                     });
+
+                    socket_space.on('session_keepalive', () => {
+                        const el = document.getElementById('keepalive');
+                        if (el) el.textContent = new Date();
+                    });
+
+                    socket_space.on('channel.prediction.begin', ({ metadata, payload }) => {
+                        let { event } = payload;
+                        let { id, title } = event;
+                        log(`${title} Prediction has started!`);
+                        clearOldElements();
+                        setTimeout(() => {
+                            getPredStuff(my_user_id, `${id}`);
+                        }, 200);
+                    });
+
+                    socket_space.on('channel.prediction.progress', ({ metadata, payload }) => {
+                        let { event } = payload;
+                        let { id, title } = event;
+                        predProgressStuff(my_user_id, `${id}`);
+                        log(`${title} Prediction progressed`);
+                    });
+
+                    socket_space.on('channel.prediction.lock', ({ metadata, payload }) => {
+                        let { event } = payload;
+                        let { id, title } = event;
+                        log(`${title} Prediction locked`);
+                        playTheLockedAnimation();
+                    });
+
+                    socket_space.on('channel.prediction.end', ({ metadata, payload }) => {
+                        let { event } = payload;
+                        let { id, title, status } = event;
+                        log(`${title} Prediction ended`);
+                        playTheEndedAnimation(`${status}`, `${id}`);
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    log(`Error with Users Call`);
+                });
+        }
 
         function getPredStuffFirstRun(broadcaster_id) {
             let url = new URL('https://api.twitch.tv/helix/predictions?broadcaster_id='+broadcaster_id);
@@ -595,14 +626,9 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             )
                 .then(resp => resp.json())
                 .then(resp => {
-                    //console.dir(resp.data[0]);
-
                     if (resp.data[0].status == "ACTIVE"){
-
-                        //log(`Got ${resp.data[0].outcomes.length} outcomes`);
                         if(resp.data[0].outcomes.length < 2){
                         } else {
-
                             if (typeof timerL3 !== 'undefined') {
                                 clearTimeout(timerL3);
                             }
@@ -622,7 +648,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                                 clearInterval(intervalForResults);
                             }
 
-                            // confetti start
                             document.getElementById("confettianimation").style.display = "block";
                             document.getElementById("confettianimation").style.opacity = "80";
                             const confettiWrapper = document.querySelector('.confetti-wrapper');
@@ -639,7 +664,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                                 function(){
                                     document.getElementById("confettianimation").style.display = "none";
                                 },3900);
-                            // confetti end
 
                             const container = document.getElementById('animation');
                             const numberOfDivs = `${resp.data[0].outcomes.length}`
@@ -652,14 +676,12 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                             const startWidth = Math.floor((container.offsetWidth * 0.92) / numberOfDivs);
 
                             for (let i = 0; i < numberOfDivs; i++) {
-
                                 const newDiv2 = document.createElement('div');
                                 newDiv2.textContent = resp.data[0].outcomes[i].title;
                                 newDiv2.classList.add('outcomebar-' + i);
                                 newDiv2.setAttribute('id', 'outcomebar');
                                 container.appendChild(newDiv2);
 
-                                // Store the natural width before applying an inline style
                                 const initialContentWidth = newDiv2.offsetWidth;
                                 newDiv2.setAttribute('data-initial-width', initialContentWidth);
                                 newDiv2.style.width = Math.max(initialContentWidth, startWidth) + 'px';
@@ -671,15 +693,11 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 
                             const globalWidthHolder = document.getElementById('animation');
                             globalWidth = globalWidthHolder.offsetWidth;
-                            console.log('globalwidth is:'+globalWidth);
 
                             setTimeout(() => {
                                 globalWidth = globalWidthHolder.offsetWidth;
-                                console.log('globalwidth is:'+globalWidth);
-                                for (let i = 0; i < numberOfDivs; i++) {
-                                    changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i);
-                                }
-                            }, 800); // A small delay
+                                addTheBarsMoveTimer();
+                            }, 800);
                             showTheTimer(resp.data[0].prediction_window, resp.data[0].created_at);
                             fadeinEverything();
                             playTheStartSound();
@@ -687,7 +705,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 
                             setTimeout(() => {
                                 predProgressStuff(my_user_id, `${resp.data[0].id}`)
-                            }, 1800); // A small delay
+                            }, 1800);
                         }
                     }
                 })
@@ -710,11 +728,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             )
                 .then(resp => resp.json())
                 .then(resp => {
-                    //console.dir(resp.data[0]);
-                    //log(`Got ${resp.data[0].outcomes.length} outcomes`);
                     if(resp.data[0].outcomes.length < 2){
                     } else {
-
                         if (typeof timerL3 !== 'undefined') {
                             clearTimeout(timerL3);
                         }
@@ -734,7 +749,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                             clearInterval(intervalForResults);
                         }
 
-                        // confetti start
                         document.getElementById("confettianimation").style.display = "block";
                         document.getElementById("confettianimation").style.opacity = "80";
                         const confettiWrapper = document.querySelector('.confetti-wrapper');
@@ -751,7 +765,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                             function(){
                                 document.getElementById("confettianimation").style.display = "none";
                             },3900);
-                        // confetti end
 
                         const container = document.getElementById('animation');
                         const numberOfDivs = `${resp.data[0].outcomes.length}`
@@ -764,14 +777,12 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                         const startWidth = Math.floor((container.offsetWidth * 0.92) / numberOfDivs);
 
                         for (let i = 0; i < numberOfDivs; i++) {
-
                             const newDiv2 = document.createElement('div');
                             newDiv2.textContent = resp.data[0].outcomes[i].title;
                             newDiv2.classList.add('outcomebar-' + i);
                             newDiv2.setAttribute('id', 'outcomebar');
                             container.appendChild(newDiv2);
 
-                            // Store the natural width before applying an inline style
                             const initialContentWidth = newDiv2.offsetWidth;
                             newDiv2.setAttribute('data-initial-width', initialContentWidth);
                             newDiv2.style.width = Math.max(initialContentWidth, startWidth) + 'px';
@@ -785,7 +796,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                         globalWidth = globalWidthHolder.offsetWidth;
 
                         setTimeout(() => {
-                            globalWidth = globalWidthHolder.offsetWidth; // Recalculate width after rendering
+                            globalWidth = globalWidthHolder.offsetWidth;
                             addTheBarsMoveTimer();
                         }, 800);
                         showTheTimer(resp.data[0].prediction_window, resp.data[0].created_at);
@@ -814,43 +825,35 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                 .then(resp => resp.json())
                 .then(resp => {
                     if (!resp.data || !resp.data[0] || !resp.data[0].outcomes) {
-                        return; // Exit if data is not as expected
+                        return;
                     }
 
                     const outcomes = resp.data[0].outcomes;
                     const numberOfOutcomes = outcomes.length;
                     const container = document.getElementById('animation');
-                    // Ensure globalWidth is up-to-date for accurate scaling
                     globalWidth = container.offsetWidth;
 
-                    // 1. Collect all channel point values and find maximum and total points
                     const allPoints = outcomes.map(outcome => parseInt(outcome.channel_points, 10));
                     const maxPoints = Math.max(...allPoints);
                     const totalPoints = allPoints.reduce((sum, val) => sum + val, 0);
 
-                    // 2. Loop through each outcome ONCE to update its bar.
                     for (let i = 0; i < numberOfOutcomes; i++) {
                         const outcome = outcomes[i];
                         const currentPoints = allPoints[i];
                         const barElement = document.querySelector('.outcomebar-' + i);
 
-                        if (!barElement) continue; // Skip if the bar element doesn't exist
+                        if (!barElement) continue;
 
-                        // Calculate percentage (0% if no points bet yet)
                         const percent = totalPoints > 0 ? Math.round((currentPoints / totalPoints) * 100) : 0;
 
-                        // Update the number counter with title and percentage
                         countUpToCPointsNumber('outcomecp-' + i, currentPoints, outcome.title, percent, totalPoints);
 
-                        // Update the bar color based on the top predictor
                         if (outcome.users > 0 && outcome.top_predictors && outcome.top_predictors.length > 0) {
                             const topPredictorUserId = outcome.top_predictors[0].user_id;
                             doChatUsersBarColor(topPredictorUserId, 'outcomebar-' + i);
                         }
 
-                        // 3. Calculate the new proportional width
                         let proportionalWidth = 0;
-                        // Use the stored minimum width required for the text
                         const minimumWidth = parseInt(barElement.getAttribute('data-initial-width'), 10) || 0;
 
                         if (totalPoints > 0) {
@@ -859,13 +862,10 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                             proportionalWidth = Math.floor((globalWidth * 0.92) / numberOfOutcomes);
                         }
 
-                        // The final width is the larger of the proportional width or the minimum text width
                         const finalWidth = Math.max(proportionalWidth, minimumWidth);
-
                         barElement.style.width = `${finalWidth}px`;
                     }
 
-                    // After all widths are set, adjust the timer's position
                     addTheBarsMoveTimer();
                 })
                 .catch(err => {
@@ -875,14 +875,13 @@ Simply add it as a browser source by copying the URL of the blank screen after c
         }
 
         function countUpToCPointsNumber(className, stones, title, percent, totalPoints){
-
             const counterElement = document.querySelector('.'+className);
             if (!counterElement) return;
 
-            const targetNumber = stones; // The number you want to count up to
-            const duration = 1000; // Duration of the animation in milliseconds (1 second)
-            const interval = 10; // Interval for updating the counter (in milliseconds)
-            const increment = targetNumber / (duration / interval); // Calculate the increment per interval
+            const targetNumber = stones;
+            const duration = 1000;
+            const interval = 10;
+            const increment = targetNumber / (duration / interval);
 
             let cptextContent = counterElement.textContent;
             let cpnumericValue = parseFloat(cptextContent.replace(/,/g, ''));
@@ -895,8 +894,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             const timerCP = setInterval(() => {
                 currentNumber += increment;
                 if (currentNumber >= targetNumber) {
-                    currentNumber = targetNumber; // Ensure the counter doesn't exceed the target
-                    clearInterval(timerCP); // Stop the timer when the target is reached
+                    currentNumber = targetNumber;
+                    clearInterval(timerCP);
                 }
                 if (totalPoints > 0 || Math.round(currentNumber) > 0){
                     const cpIcon = '<svg viewBox="0 0 20 20" style="width:0.95em;height:0.95em;vertical-align:-0.12em;display:inline-block;filter:drop-shadow(1px 1px 2px rgba(0,0,0,0.4));" fill="none"><circle cx="10" cy="10" r="7.5" stroke="#ffffff" stroke-width="2.2"/><path d="M10 5.8 A4.2 4.2 0 0 1 14.2 10" stroke="#ffffff" stroke-width="2.2"/></svg>';
@@ -910,13 +909,10 @@ Simply add it as a browser source by copying the URL of the blank screen after c
         function changeDivColorByClassUser(className, newBgColor) {
             const elements = document.getElementsByClassName(className);
             for (let i = 0; i < elements.length; i++) {
-                // --- UPDATED: We now set the background-image for a gradient effect ---
-                // If the color is a hex, create a gradient from it to a darker shade
                 if (newBgColor.startsWith('#')) {
-                    const darkerColor = shadeColor(newBgColor, -20); // Darken by 20%
+                    const darkerColor = shadeColor(newBgColor, -20);
                     elements[i].style.backgroundImage = `linear-gradient(to right, ${newBgColor}, ${darkerColor})`;
                 } else {
-                    // Fallback for non-hex colors
                     elements[i].style.backgroundImage = `none`;
                     elements[i].style.backgroundColor = newBgColor;
                 }
@@ -925,7 +921,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 
         function doChatUsersBarColor(theuserid, thedivclass) {
             let url = new URL('https://api.twitch.tv/helix/chat/color?user_id='+`${theuserid}`);
-            //log('https://api.twitch.tv/helix/chat/color?user_id='+`${theuserid}`);
             fetch(
                 url,
                 {
@@ -937,8 +932,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             )
                 .then(resp => resp.json())
                 .then(resp => {
-                    //log(`Got color: ${resp.data[0].color} for ${theuserid}`);
-                    //log(`class is for ${thedivclass}`);
                     redeemUserColor = `${resp.data[0].color}`
                     if (resp.data[0].color) {
                         changeDivColorByClassUser(thedivclass, redeemUserColor);
@@ -952,7 +945,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                 });
         }
 
-        // This function helps us create darker shades for our gradients.
         function shadeColor(color, percent) {
             let R = parseInt(color.substring(1, 3), 16);
             let G = parseInt(color.substring(3, 5), 16);
@@ -1145,7 +1137,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 
                     const maxItems = Math.max(winners.length, losers.length);
                     const maxDistance = 140 + (maxItems * 28);
-                    const speedPxPerSec = Math.max(35, maxDistance / 22);
+                    const speedPxPerSec = Math.max(22, maxDistance / 35);
                     const durationMs = Math.round((maxDistance / speedPxPerSec) * 1000);
 
                     startScrollingResultsColumn(winnersCol, winners, true, durationMs);
@@ -1156,7 +1148,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                     log('Error with Users Call');
                 });
         }
-
 
         function requestHooks(user_id, my_id) {
             let eventSubTypes = {
@@ -1171,9 +1162,10 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             for (let type in eventSubTypes) {
                 log(`Attempt create ${type} - ${user_id}`);
                 let { version, condition } = eventSubTypes[type];
-                        spawnHook(type, version, condition);
+                spawnHook(type, version, condition);
             }
         }
+
         function spawnHook(type, version, condition) {
             fetch(
                 'https://api.twitch.tv/helix/eventsub/subscriptions',
@@ -1201,7 +1193,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                         log(`Error with eventsub Call ${type} Call: ${resp.message ? resp.message : ''}`);
                     } else {
                         log(`Created ${type}`);
-                        //clear the scene for browser source use
                         document.getElementById("bigcontainer").style.display = "none";
                     }
                 })
@@ -1210,118 +1201,9 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                     log(`Error with eventsub Call ${type} Call: ${err.message ? err.message : ''}`);
                 });
         }
-
-        function runContinuousTestCycle() {
-            log('Starting Continuous Test Simulation Loop');
-            document.getElementById("bigcontainer").style.display = "none";
-
-            function cycle() {
-                clearOldElements();
-
-                const container = document.getElementById('animation');
-                globalWidth = container.offsetWidth || 1600;
-
-                const titleDiv = document.createElement('div');
-                titleDiv.setAttribute('id', 'predtitle');
-                titleDiv.textContent = 'WILL WE WIN THIS GAME?';
-                container.appendChild(titleDiv);
-
-                const titles = ['BELIEVEE', 'DOUBT'];
-                const numberOfDivs = 2;
-                const startWidth = Math.floor((globalWidth * 0.92) / numberOfDivs);
-
-                for (let i = 0; i < numberOfDivs; i++) {
-                    const bar = document.createElement('div');
-                    bar.textContent = titles[i];
-                    bar.classList.add('outcomebar-' + i);
-                    bar.setAttribute('id', 'outcomebar');
-                    container.appendChild(bar);
-
-                    const initialContentWidth = bar.offsetWidth;
-                    bar.setAttribute('data-initial-width', initialContentWidth);
-                    bar.style.width = Math.max(initialContentWidth, startWidth) + 'px';
-
-                    const cp = document.createElement('div');
-                    cp.classList.add('outcomecp-' + i);
-                    bar.appendChild(cp);
-                }
-
-                showTheTimer(10, new Date().toISOString());
-                fadeinEverything();
-                playTheStartSound();
-
-                setTimeout(() => {
-                    const totalPoints = 50000;
-                    const b0 = 35000;
-                    const b1 = 15000;
-                    countUpToCPointsNumber('outcomecp-0', b0, 'BELIEVE', 70, totalPoints);
-                    countUpToCPointsNumber('outcomecp-1', b1, 'DOUBT', 30, totalPoints);
-
-                    const bar0 = document.querySelector('.outcomebar-0');
-                    const bar1 = document.querySelector('.outcomebar-1');
-                    if (bar0) bar0.style.width = Math.max(parseInt(bar0.getAttribute('data-initial-width')), (b0 / totalPoints) * (globalWidth * 0.92)) + 'px';
-                    if (bar1) bar1.style.width = Math.max(parseInt(bar1.getAttribute('data-initial-width')), (b1 / totalPoints) * (globalWidth * 0.92)) + 'px';
-                    addTheBarsMoveTimer();
-                }, 3000);
-
-                setTimeout(() => {
-                    playTheLockedAnimation();
-                }, 10000);
-
-                setTimeout(() => {
-                    playTheEndedAnimation('resolved', 'test-pred-id');
-
-                    const bars = container.querySelectorAll('#outcomebar');
-                    const firstBar = bars[0];
-                    const lastBar = bars[bars.length - 1];
-                    const barSpanWidth = (firstBar && lastBar)
-                        ? ((lastBar.offsetLeft + lastBar.offsetWidth) - firstBar.offsetLeft)
-                        : Math.floor(globalWidth * 0.92);
-
-                    const oldResults = document.getElementById('resultsdiv');
-                    if (oldResults) oldResults.remove();
-
-                    const resultsDiv = document.createElement('div');
-                    resultsDiv.setAttribute('id', 'resultsdiv');
-                    resultsDiv.style.left = (firstBar ? firstBar.offsetLeft : 0) + 'px';
-                    resultsDiv.style.width = barSpanWidth + 'px';
-
-                    const leftCol = document.createElement('div');
-                    leftCol.className = 'results-col results-col-left';
-
-                    const rightCol = document.createElement('div');
-                    rightCol.className = 'results-col results-col-right';
-
-                    resultsDiv.appendChild(leftCol);
-                    resultsDiv.appendChild(rightCol);
-                    container.appendChild(resultsDiv);
-
-                    changeDivColorByClassUser('outcomebar-1', 'rgba(204, 204, 204, 0.5)');
-
-                    const mockWinners = [
-                        { name: 'Hadidas', amount: 12500 },
-                        { name: 'S1rLemon', amount: 8200 },
-                        { name: 'Aegis', amount: 4100 },
-                        { name: 'Jubhioc', amount: 1500 }
-                    ];
-                    const mockLosers = [
-                        { name: 'Crypto', amount: 7500 },
-                        { name: 'Unter', amount: 5000 },
-                        { name: 'Hilarium', amount: 2500 }
-                    ];
-
-                    startScrollingResultsColumn(leftCol, mockWinners, true, 8000);
-                    startScrollingResultsColumn(rightCol, mockLosers, false, 8000);
-                }, 15000);
-
-                setTimeout(cycle, 26000);
-            }
-
-            cycle();
-        }
     </script>
 </div></div>
 <div id="animation">
     <div class="confetti-wrapper" id="confettianimation"></div>
-</div></div></div>
+</div>
 </body></html>
