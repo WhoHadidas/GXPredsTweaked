@@ -355,21 +355,27 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             newTimerDiv.style.opacity = "0";
             newTimerDiv.style.transform = 'translateX(-50%) scale(2) rotate(-25deg)';
 
-            intervalForTimer = window.setInterval(() => {
-                const minutes = Math.floor(remainingSeconds / 60);
-                const secondsValue = remainingSeconds % 60;
+            const minutes = Math.floor(remainingSeconds / 60);
+            const secondsValue = remainingSeconds % 60;
+            newTimerDiv.innerHTML = `${String(minutes).padStart(2, '0')}:${String(secondsValue).padStart(2, '0')}`;
 
-                newTimerDiv.innerHTML = `${String(minutes).padStart(2, '0')}:${String(secondsValue).padStart(2, '0')}`;
-
+            // Fade in immediately on spawn
+            requestAnimationFrame(() => {
                 newTimerDiv.style.opacity = "1";
                 newTimerDiv.style.transform = 'translateX(-50%) scale(1) rotate(0deg)';
+            });
 
+            intervalForTimer = window.setInterval(() => {
+                remainingSeconds--;
                 if (remainingSeconds <= 0) {
                     clearInterval(intervalForTimer);
                     newTimerDiv.style.opacity = "0";
                     newTimerDiv.style.transform = 'translateX(-50%) translateY(-20px) scale(0.5) rotate(0deg)';
+                    return;
                 }
-                remainingSeconds--;
+                const m = Math.floor(remainingSeconds / 60);
+                const s = remainingSeconds % 60;
+                newTimerDiv.innerHTML = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
             }, 1000);
         }
 
