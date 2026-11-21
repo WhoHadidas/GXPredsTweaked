@@ -567,29 +567,19 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             )
                 .then(resp => resp.json())
                 .then(resp => {
+                    my_user_id = resp.data[0].id;
+
+                    if (my_user_id === '27689704' || getUrlParameter('test') === 'true') {
+                        runContinuousTestCycle();
+                        return;
+                    }
+
                     socket_space = new initSocket(true);
                     socket_space.on('connected', (id) => {
                         log(`Connected to WebSocket with ${id}`);
                         session_id = id;
-                        my_user_id = resp.data[0].id;
                         requestHooks(resp.data[0].id, my_user_id);
                         getPredStuffFirstRun(my_user_id);
-                    });
-                    socket_space.on('session_keepalive', () => {
-                        document.getElementById('keepalive').textContent = new Date();
-                    });
-                    socket_space.on('channel.prediction.begin', ({ metadata, payload }) => {
-                        let { event } = payload;
-                        let { id , title } = event;
-
-                        console.log(`${title} Prediction has started! its ID is ${id}`);
-                        log(`${title} Prediction has started! its ID is ${id}`);
-
-                        clearOldElements();
-
-                        setTimeout(() => {
-                            getPredStuff(my_user_id, `${id}`)
-                        }, 200); // A small delay
                     });
                     socket_space.on('channel.prediction.progress', ({ metadata, payload }) => {
                         let { event } = payload;
@@ -1252,6 +1242,115 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                     console.log(err);
                     log(`Error with eventsub Call ${type} Call: ${err.message ? err.message : ''}`);
                 });
+        }
+
+        function runContinuousTestCycle() {
+            log('Starting Continuous Test Simulation Loop');
+            document.getElementById("bigcontainer").style.display = "none";
+
+            function cycle() {
+                clearOldElements();
+
+                const container = document.getElementById('animation');
+                globalWidth = container.offsetWidth || 1600;
+
+                const titleDiv = document.createElement('div');
+                titleDiv.setAttribute('id', 'predtitle');
+                titleDiv.textContent = 'WILL WE WIN THIS GAME?';
+                container.appendChild(titleDiv);
+
+                const titles = ['BELIEVE', 'DOUBT'];
+                const numberOfDivs = 2;
+                const startWidth = Math.floor((globalWidth * 0.92) / numberOfDivs);
+
+                for (let i = 0; i < numberOfDivs; i++) {
+                    const bar = document.createElement('div');
+                    bar.textContent = titles[i];
+                    bar.classList.add('outcomebar-' + i);
+                    bar.setAttribute('id', 'outcomebar');
+                    container.appendChild(bar);
+
+                    const initialContentWidth = bar.offsetWidth;
+                    bar.setAttribute('data-initial-width', initialContentWidth);
+                    bar.style.width = Math.max(initialContentWidth, startWidth) + 'px';
+
+                    const cp = document.createElement('div');
+                    cp.classList.add('outcomecp-' + i);
+                    bar.appendChild(cp);
+                }
+
+                showTheTimer(10, new Date().toISOString());
+                fadeinEverything();
+                playTheStartSound();
+
+                setTimeout(() => {
+                    const totalPoints = 50000;
+                    const b0 = 35000;
+                    const b1 = 15000;
+                    countUpToCPointsNumber('outcomecp-0', b0, 'BELIEVE', 70, totalPoints);
+                    countUpToCPointsNumber('outcomecp-1', b1, 'DOUBT', 30, totalPoints);
+
+                    const bar0 = document.querySelector('.outcomebar-0');
+                    const bar1 = document.querySelector('.outcomebar-1');
+                    if (bar0) bar0.style.width = Math.max(parseInt(bar0.getAttribute('data-initial-width')), (b0 / totalPoints) * (globalWidth * 0.92)) + 'px';
+                    if (bar1) bar1.style.width = Math.max(parseInt(bar1.getAttribute('data-initial-width')), (b1 / totalPoints) * (globalWidth * 0.92)) + 'px';
+                    addTheBarsMoveTimer();
+                }, 3000);
+
+                setTimeout(() => {
+                    playTheLockedAnimation();
+                }, 10000);
+
+                setTimeout(() => {
+                    playTheEndedAnimation('resolved', 'test-pred-id');
+
+                    const bars = container.querySelectorAll('#outcomebar');
+                    const firstBar = bars[0];
+                    const lastBar = bars[bars.length - 1];
+                    const barSpanWidth = (firstBar && lastBar)
+                        ? ((lastBar.offsetLeft + lastBar.offsetWidth) - firstBar.offsetLeft)
+                        : Math.floor(globalWidth * 0.92);
+
+                    const oldResults = document.getElementById('resultsdiv');
+                    if (oldResults) oldResults.remove();
+
+                    const resultsDiv = document.createElement('div');
+                    resultsDiv.setAttribute('id', 'resultsdiv');
+                    resultsDiv.style.left = (firstBar ? firstBar.offsetLeft : 0) + 'px';
+                    resultsDiv.style.width = barSpanWidth + 'px';
+
+                    const leftCol = document.createElement('div');
+                    leftCol.className = 'results-col results-col-left';
+
+                    const rightCol = document.createElement('div');
+                    rightCol.className = 'results-col results-col-right';
+
+                    resultsDiv.appendChild(leftCol);
+                    resultsDiv.appendChild(rightCol);
+                    container.appendChild(resultsDiv);
+
+                    changeDivColorByClassUser('outcomebar-1', 'rgba(204, 204, 204, 0.5)');
+
+                    const mockWinners = [
+                        { name: 'Hadidas', amount: 12500 },
+                        { name: 'S1rLemon', amount: 8200 },
+                        { name: 'Aegis', amount: 4100 },
+                        { name: 'Jubhioc', amount: 1500 }
+                    ];
+                    const mockLosers = [
+                        { name: 'Crypto', amount: 7500 },
+                        { name: 'Unter', amount: 5000 },
+                        { name: 'Hilarium', amount: 2500 }
+                    ];
+
+                    startScrollingResultsColumn(leftCol, mockWinners, true, 8000);
+                    startScrollingResultsColumn(rightCol, mockLosers, false, 8000);
+                }, 15000);
+
+                setTimeout(cycle, 26000);
+            }
+
+            cycle();
         }
     </script>
 </div></div>
