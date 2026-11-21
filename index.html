@@ -34,16 +34,14 @@
             margin-right: 5px;
         }
         .confetti-wrapper {
-            position: fixed;
+            position: absolute;
             top: 0;
-            margin-top: -25%;
-            width: 90%;
+            left: 0;
+            width: 100%;
             height: 100%;
-            pointer-events: none; /* Prevent interaction */
+            pointer-events: none;
             overflow: hidden;
             z-index: 100;
-            padding-top: -50%;
-            object-fit: cover;
         }
 
         .confetti-piece {
@@ -352,7 +350,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             const newTimerDiv = document.createElement('div');
             newTimerDiv.setAttribute('id', 'timerdiv');
             container.appendChild(newTimerDiv);
-            let remainingSeconds = seconds;
+            addTheBarsMoveTimer();
             // --- UPDATED: Initial state for the animation ---
             newTimerDiv.style.opacity = "0";
             newTimerDiv.style.transform = 'translateX(-50%) scale(2) rotate(-25deg)';
@@ -1149,20 +1147,24 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                     losers.sort((a, b) => b.amount - a.amount);
 
                     const bars = container.querySelectorAll('#outcomebar');
+                    const firstBar = bars[0];
                     const lastBar = bars[bars.length - 1];
                     const winningBar = bars[winningIndex];
-                    const barSpanWidth = lastBar ? (lastBar.offsetLeft + lastBar.offsetWidth) : Math.floor(globalWidth * 0.92);
+                    const barSpanWidth = (firstBar && lastBar)
+                        ? ((lastBar.offsetLeft + lastBar.offsetWidth) - firstBar.offsetLeft)
+                        : Math.floor(globalWidth * 0.92);
 
                     let winnersOnLeft = winningIndex === 0;
                     if (winningIndex > 0 && winningIndex === numberOfOutcomes - 1) {
                         winnersOnLeft = false;
                     } else if (winningIndex > 0 && winningBar && barSpanWidth > 0) {
-                        const winningCenter = winningBar.offsetLeft + (winningBar.offsetWidth / 2);
+                        const winningCenter = (winningBar.offsetLeft - (firstBar ? firstBar.offsetLeft : 0)) + (winningBar.offsetWidth / 2);
                         winnersOnLeft = winningCenter < (barSpanWidth / 2);
                     }
 
                     const resultsDiv = document.createElement('div');
                     resultsDiv.setAttribute('id', 'resultsdiv');
+                    resultsDiv.style.left = (firstBar ? firstBar.offsetLeft : 0) + 'px';
                     resultsDiv.style.width = barSpanWidth + 'px';
 
                     const leftCol = document.createElement('div');
